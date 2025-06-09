@@ -8,10 +8,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Controlador para manejar la autenticación de usuarios
+ * 
+ * Este controlador proporciona métodos para registrar, iniciar sesión y cerrar sesión de usuarios
+ * utilizando tokens de Sanctum para la autenticación.
+ */
 class AuthController extends Controller
 {
      use ApiResponse;
 
+     /**
+      * Registra un nuevo usuario en el sistema
+      *
+      * @param Request $request
+      * @return \Illuminate\Http\JsonResponse
+      * @throws ValidationException
+      */
      public function register(Request $request)
      {
           $fields = $request->validate([
@@ -34,6 +47,13 @@ class AuthController extends Controller
           ], 'Usuario registrado correctamente', 201);
      }
 
+     /**
+      * Autentica a un usuario existente
+      *
+      * @param Request $request
+      * @return \Illuminate\Http\JsonResponse
+      * @throws ValidationException
+      */
      public function login(Request $request)
      {
           $fields = $request->validate([
@@ -55,6 +75,12 @@ class AuthController extends Controller
           ], 'Inicio de sesión exitoso');
      }
 
+     /**
+      * Cierra la sesión del usuario actual
+      *
+      * @param Request $request
+      * @return \Illuminate\Http\JsonResponse
+      */
      public function logout(Request $request)
      {
           $request->user()->tokens()->delete();

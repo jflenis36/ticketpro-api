@@ -8,11 +8,17 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Throwable;
 
+/**
+ * Clase Handler para el manejo de excepciones de la aplicación
+ * 
+ * Esta clase extiende el ExceptionHandler de Laravel y personaliza
+ * el manejo de excepciones para la API
+ */
 class Handler extends ExceptionHandler
 {
      /**
-      * A list of the exception types that are not reported.
-      *
+      * Lista de tipos de excepciones que no deben ser reportadas.
+      * 
       * @var array<int, class-string<Throwable>>
       */
      protected $dontReport = [
@@ -20,8 +26,8 @@ class Handler extends ExceptionHandler
      ];
 
      /**
-      * A list of the inputs that are never flashed for validation exceptions.
-      *
+      * Lista de inputs que nunca deben ser flasheados en las excepciones de validación.
+      * 
       * @var array<int, string>
       */
      protected $dontFlash = [
@@ -31,8 +37,8 @@ class Handler extends ExceptionHandler
      ];
 
      /**
-      * Register the exception handling callbacks for the application.
-      *
+      * Registra los callbacks de manejo de excepciones para la aplicación.
+      * 
       * @return void
       */
      public function register()
@@ -42,10 +48,16 @@ class Handler extends ExceptionHandler
           });
      }
 
+     /**
+      * Renderiza la excepción en una respuesta HTTP.
+      * 
+      * @param  \Illuminate\Http\Request  $request
+      * @param  \Throwable  $exception
+      * @return \Symfony\Component\HttpFoundation\Response
+      */
      public function render($request, Throwable $exception)
      {
           if ($request->expectsJson()) {
-
                if ($exception instanceof NotFoundHttpException) {
                     return response()->json([
                          'ok' => false,
@@ -74,6 +86,13 @@ class Handler extends ExceptionHandler
           return parent::render($request, $exception);
      }
 
+     /**
+      * Convierte una excepción de validación en una respuesta JSON.
+      * 
+      * @param  \Illuminate\Http\Request  $request
+      * @param  \Illuminate\Validation\ValidationException  $exception
+      * @return \Illuminate\Http\JsonResponse
+      */
      public function invalidJson($request, ValidationException $exception)
      {
           $mensajes = collect($exception->errors())->flatten()->implode(' ');
