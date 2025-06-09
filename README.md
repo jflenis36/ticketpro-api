@@ -61,3 +61,38 @@ ticketpro-api/
 **Juan Lenis**  
 Desarrollador Full Stack
 [LinkedIn](https://www.linkedin.com/in/jflenis36)
+
+
+----------------------------------------
+
+# ⏳ Proceos
+
+----------------------------------------
+
+## ✅ Autenticación con Laravel Sanctum
+
+Se ha implementado un sistema de autenticación seguro y estructurado utilizando Laravel Sanctum. Este módulo incluye los siguientes endpoints:
+
+### 🔐 Endpoints
+
+- `POST /api/auth/register`: Registro de usuario con validación de campos (`name`, `email`, `password`, `password_confirmation`).
+- `POST /api/auth/login`: Inicio de sesión con retorno de token de acceso.
+- `POST /api/auth/logout`: Cierre de sesión y revocación de todos los tokens del usuario.
+- `GET /api/user`: Retorna la información del usuario autenticado (protegido con middleware `auth:sanctum`).
+
+---
+
+### 📦 Validaciones y mensajes personalizados
+
+- Todos los errores de validación son retornados en **español** con mensajes claros y amigables.
+- Se unificó la estructura de las respuestas para que mantengan el siguiente formato en toda la API:
+
+```json
+{
+  "ok": false,
+  "status": "error",
+  "code": 422,
+  "message": "El campo email es obligatorio. El campo password es obligatorio.",
+  "errors": null
+}
+
