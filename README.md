@@ -69,6 +69,29 @@ Desarrollador Full Stack
 
 ----------------------------------------
 
+## 🎫 Endpoints - Gestión de Tickets
+
+Todas las rutas están protegidas mediante autenticación con **Sanctum**. Requiere un token válido tipo **Bearer**.
+
+### 📌 Base: `/api/ticket`
+
+---
+
+### 🔍 `GET /api/ticket`
+**Descripción:** Listar los tickets del usuario autenticado (orden descendente por fecha).
+
+**Respuesta exitosa:**
+```json
+{
+  "ok": true,
+  "status": "success",
+  "code": 200,
+  "message": "Operación exitosa.",
+  "data": [ /* Lista de tickets */ ]
+}
+```
+
+
 ## ✅ Autenticación con Laravel Sanctum
 
 Se ha implementado un sistema de autenticación seguro y estructurado utilizando Laravel Sanctum. Este módulo incluye los siguientes endpoints:
@@ -95,4 +118,5 @@ Se ha implementado un sistema de autenticación seguro y estructurado utilizando
   "message": "El campo email es obligatorio. El campo password es obligatorio.",
   "errors": null
 }
+```
 
