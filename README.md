@@ -10,13 +10,9 @@ API REST desarrollada con Laravel 8 y Sanctum, que permite gestionar tickets, ca
 2. [Tecnologías](#-tecnologías)  
 3. [Instalación y ejecución](#-instalación-y-ejecución)  
 4. [Endpoints principales](#-endpoints-principales)
-   - Autenticación  
-   - Tickets  
-   - Categorías  
-   - Comentarios 
 5. [Filtros y paginación](#-filtros-y-paginación)  
-6. [Formato de Respuesta JSON Unificado](#-formato-de-respuesta-json-unificado)  $
-7. [Funcionalidades Pensadas a Futuro](#-funcionalidades-pensadas-a-futuro)  $
+6. [Formato de Respuesta JSON Unificado](#-formato-de-respuesta-json-unificado)
+7. [Funcionalidades Pensadas a Futuro](#-funcionalidades-pensadas-a-futuro)
 
 ---
 
