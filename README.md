@@ -1,214 +1,283 @@
+# 🎫 TicketPro API
 
-# 🎯 TicketPro API - Backend (Laravel)
-
-Este repositorio contiene el backend del proyecto **TicketPro**, una aplicación para la gestión de incidencias/tickets de soporte técnico. El backend está desarrollado en **Laravel** e implementa una API RESTful para interactuar con el frontend desarrollado en Vue.js.
-
----
-
-## 📌 Objetivo del Proyecto
-
-Desarrollar una plataforma funcional y visualmente atractiva para la gestión de tickets de soporte. El objetivo principal es resolver la prueba técnica propuesta por **Iyata SAS**, cumpliendo con buenas prácticas de arquitectura y desarrollo.
+API REST desarrollada con Laravel 8 y Sanctum, que permite gestionar tickets, categorías y comentarios jerárquicos en un sistema autenticado.
 
 ---
 
-## ⏳ Alcance y Plazos
+## 🧩 Contenido
 
-- ⏱ Tiempo estimado: 7 a 10 días
-- 🧩 Funcionalidades principales:
-  - Registro e inicio de sesión (con **Laravel Sanctum**)
-  - Crear, editar, listar y eliminar tickets
-  - Asignar estados a los tickets (Abierto, En proceso, Cerrado)
-  - API REST consumida desde el frontend
-
----
-
-## 🚧 Estado del Proyecto
-
-| Fecha       | Descripción                                      |
-|-------------|--------------------------------------------------|
-| Día 1       | Proyecto creado con Laravel. Se instaló Sanctum.|
-| Día 2       | Integración de autenticación y migraciones iniciales. |
-| Día 3       | CRUD de tickets y configuración de rutas API.   |
+1. [Descripción](#descripción)  
+2. [Tecnologías](#tecnologías)  
+3. [Instalación y ejecución](#instalación-y-ejecución)  
+4. [Endpoints principales](#endpoints-principales)  
+5. [Filtros y paginación](#filtros-y-paginación)  
+6. [Respuestas JSON unificadas](#respuestas-json-unificadas)  
+7. [Planeado para futuro](#planeado-para-futuro)  
 
 ---
 
-## 🛠️ Tecnologías
+## 📝 Descripción
 
-- Laravel 11
-- Sanctum (Auth API)
-- MySQL / SQLite (según entorno)
-- PHP 8.2+
+TicketPro API permite a usuarios autenticados:
+- Gestionar el ciclo completo de tickets (crear, consultar, actualizar, eliminar).
+- Clasificar tickets en categorías.
+- Agregar comentarios y respuestas jerárquicas dentro de los tickets.
+
+Diseñada con buenas prácticas, validaciones en español y respuestas consistentes.
 
 ---
 
-## 📂 Estructura del Repositorio
+## ⚙️ Tecnologías
 
-```
-ticketpro-api/
-├── app/
-├── config/
-├── database/
-├── routes/
-│   └── api.php
-├── .env.example
-└── README.md
+- PHP 8.x  
+- Laravel 8.x + Sanctum  
+- MySQL / PostgreSQL  
+- Eloquent ORM  
+- (Próximamente) PHPUnit para tests
+
+---
+
+## 🚀 Instalación y ejecución
+
+```bash
+git clone https://github.com/jflenis36/ticketpro-api.git
+cd ticketpro-api
+composer install
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
 ```
 
 ---
 
-## 📫 Contacto
+## Endpoints principales
 
-**Juan Lenis**  
-Desarrollador Full Stack
-[LinkedIn](https://www.linkedin.com/in/jflenis36)
+### 🛡️ Autenticación - 🔑 Iniciar sesión
+- **Método:** POST  
+- **Ruta:** `/api/auth/login`  
+- **Body:**
+```json
+{
+  "email": "admin@email.com",
+  "password": "admin"
+}
+```
 
+### 🛡️ Autenticación - 🧾 Registrar usuario
+- **Método:** POST  
+- **Ruta:** `/api/auth/register`  
+- **Body:**
+```json
+{
+  "name": "prueba",
+  "email": "prueba@email.com",
+  "password": "adminss"
+}
+```
 
-----------------------------------------
+### 🛡️ Autenticación - 🚪 Cerrar sesión
+- **Método:** POST  
+- **Ruta:** `/api/auth/logout`  
+- **Header:** `Authorization: Bearer {token}`
 
-# ⏳ Proceos
+### 🎫 Tickets - 📋 Listar tickets
+- **Método:** GET  
+- **Ruta:** `/api/ticket`  
+- **Header:** `Authorization: Bearer {token}`
+- **Query Params (opcionales):** 
+  - `status=open`
+  - `priority=high`
+  - `q=palabra_clave`
+  - `from=2024-06-01`
+  - `to=2024-06-10`
+  - `sort_by=created_at`
+  - `sort_order=asc`
+  - `per_page=10`
 
-----------------------------------------
+### 🎫 Tickets - 🔍 Ver detalles de un ticket
+- **Método:** GET  
+- **Ruta:** `/api/ticket/{id}`  
+- **Header:** `Authorization: Bearer {token}`
 
-## 💬 Comentarios (CRUD con jerarquía)
+### 🎫 Tickets - ➕ Crear ticket
+- **Método:** POST  
+- **Ruta:** `/api/ticket`  
+- **Header:** `Authorization: Bearer {token}`
+- **Body:**
+```json
+{
+  "title": "prueba",
+  "description": "descripción de prueba para este caso",
+  "priority": "low",
+  "category_id": 1
+}
+```
 
-Se implementó un sistema completo de comentarios para los tickets, permitiendo tanto comentarios principales como respuestas anidadas (jerárquicas).
+### 🎫 Tickets - ✏️ Actualizar ticket
+- **Método:** PUT  
+- **Ruta:** `/api/ticket/{id}`  
+- **Header:** `Authorization: Bearer {token}`
+- **Body:**
+```json
+{
+  "title": "actualizado",
+  "description": "descripción actualizada",
+  "priority": "high",
+  "category_id": 1
+}
+```
 
-### 🔧 Rutas disponibles (protegidas por Sanctum)
+### 🎫 Tickets - ❌ Eliminar ticket
+- **Método:** DELETE  
+- **Ruta:** `/api/ticket/{id}`  
+- **Header:** `Authorization: Bearer {token}`
 
-| Método | Ruta                       | Descripción                           |
-|--------|----------------------------|---------------------------------------|
-| GET    | /api/comment/{ticket_id}   | Obtener comentarios del ticket        |
-| POST   | /api/comment/{ticket_id}   | Crear un nuevo comentario             |
-| PUT    | /api/comment/{id}          | Actualizar un comentario propio       |
-| DELETE | /api/comment/{id}          | Eliminar un comentario propio         |
+### 📂 Categorías - 📋 Listar categorías
+- **Método:** GET  
+- **Ruta:** `/api/category`  
+- **Header:** `Authorization: Bearer {token}`
 
-> 🔒 Requiere autenticación mediante token Sanctum.
+### 📂 Categorías - 🔍 Ver detalles de una categoría
+- **Método:** GET  
+- **Ruta:** `/api/category/{id}`  
+- **Header:** `Authorization: Bearer {token}`
 
-### 🗂️ Estructura de la tabla `comments`
+### 📂 Categorías - ➕ Crear categoría
+- **Método:** POST  
+- **Ruta:** `/api/category`  
+- **Header:** `Authorization: Bearer {token}`
+- **Body:**
+```json
+{
+  "name": "nombre"
+}
+```
 
-| Campo      | Tipo         | Descripción                                          |
-|------------|--------------|------------------------------------------------------|
-| id         | bigint       | ID autoincremental del comentario                   |
-| ticket_id  | foreignId    | Relación al ticket al que pertenece                 |
-| user_id    | foreignId    | Usuario que hizo el comentario                      |
-| parent_id  | foreignId    | (opcional) ID del comentario padre (si es respuesta)|
-| content    | text         | Contenido del comentario                            |
-| timestamps | timestamps   | Fechas de creación y actualización                  |
+### 📂 Categorías - ✏️ Actualizar categoría
+- **Método:** PUT  
+- **Ruta:** `/api/category/{id}`  
+- **Header:** `Authorization: Bearer {token}`
+- **Body:**
+```json
+{
+  "name": "nombre"
+}
+```
 
-### 📦 Ejemplo de respuesta exitosa
+### 📂 Categorías - ❌ Eliminar categoría
+- **Método:** DELETE  
+- **Ruta:** `/api/category/{id}`  
+- **Header:** `Authorization: Bearer {token}`
+
+💬 Comentarios - 🗂️ Listar comentarios de un ticket
+- **Método:** GET  
+- **Ruta:** `/api/ticket/{ticket_id}/comments`  
+- **Header:** `Authorization: Bearer {token}`
+
+💬 Comentarios - ➕ Crear comentario en un ticket
+- **Método:** POST  
+- **Ruta:** `/api/ticket/{ticket_id}/comments`  
+- **Header:** `Authorization: Bearer {token}`
+- **Body:**
+```json
+{
+  "content": "texto del comentario"
+}
+```
+
+💬 Comentarios - 🔍 Ver respuestas a un comentario
+- **Método:** GET  
+- **Ruta:** `/api/comment/{comment_id}`  
+- **Header:** `Authorization: Bearer {token}`
+
+💬 Comentarios - 🔁 Responder a un comentario
+- **Método:** POST  
+- **Ruta:** `/api/comment/{comment_id}/reply`  
+- **Header:** `Authorization: Bearer {token}`
+- **Body:**
+```json
+{
+  "content": "respuesta"
+}
+
+💬 Comentarios - ✏️ Actualizar comentario o respuesta
+- **Método:** PUT  
+- **Ruta:** `/api/comment/{id}`  
+- **Header:** `Authorization: Bearer {token}`
+- **Body:**
+```json
+{
+  "content": "comentario actualizado"
+}
+```
+
+💬 Comentarios - ❌ Eliminar comentario o respuesta
+- **Método:** DELETE  
+- **Ruta:** `/api/comment/{id}`  
+- **Header:** `Authorization: Bearer {token}`
+
+---
+
+## 🔍 Filtros y paginación
+
+El endpoint `GET /api/ticket` permite filtrar y paginar los resultados de tickets según múltiples criterios. Todos los parámetros son opcionales y pueden combinarse.
+
+### 📌 Parámetros disponibles
+
+- `status=<open|in_progress|closed>`  
+  Filtra por estado del ticket.
+
+- `priority=<low|medium|high>`  
+  Filtra por nivel de prioridad.
+
+- `q=<término>`  
+  Busca en los campos `title` y `description`.
+
+- `category_id=<ID>`  
+  Filtra por categoría.
+
+- `from=YYYY-MM-DD`  
+  Fecha mínima de creación del ticket.
+
+- `to=YYYY-MM-DD`  
+  Fecha máxima de creación del ticket.
+
+- `sort_by=<campo>`  
+  Campo por el que se desea ordenar (ej. `created_at`, `priority`, `status`).
+
+- `sort_order=<asc|desc>`  
+  Orden ascendente o descendente. Valor por defecto: `desc`.
+
+- `per_page=<número>`  
+  Define cuántos resultados por página se retornan. Si se omite, retorna todos.
+
+### 🧪 Ejemplo de uso:
+
+```http
+GET /api/ticket?status=open&priority=high&q=fallo&from=2025-06-01&to=2025-06-10&sort_by=created_at&sort_order=desc&per_page=10
+```
+
+---
+
+## 📦 Formato de Respuesta JSON Unificado
+
+Todas las respuestas de la API siguen un formato estándar para facilitar el manejo de errores y datos en el frontend.
+
+### ✅ Respuesta exitosa
+
 ```json
 {
   "ok": true,
   "status": "success",
   "code": 200,
-  "message": "Comentario creado correctamente.",
+  "message": "Operación exitosa.",
   "data": {
-    "id": 1,
-    "ticket_id": 5,
-    "user_id": 3,
-    "parent_id": null,
-    "content": "Este es un comentario.",
-    "created_at": "2025-06-10T17:50:00.000000Z"
+    // Contenido según el endpoint
   }
 }
 ```
 
-```json
-{
-  "ok": true,
-  "status": "success",
-  "code": 200,
-  "message": "Lista de comentarios del ticket.",
-  "data": [
-    {
-      "id": 1,
-      "content": "Comentario principal",
-      "replies": [
-        {
-          "id": 2,
-          "content": "Respuesta al comentario"
-        }
-      ]
-    }
-  ]
-}
-```
-
-## 📂 CRUD de Categorías
-
-Este módulo permite la gestión de las categorías a las que puede pertenecer un ticket. Está protegido por autenticación (`auth:sanctum`) y se relaciona directamente con los tickets.
-
-### 📌 Endpoints disponibles:
-
-| Método | Ruta               | Descripción                       |
-|--------|--------------------|-----------------------------------|
-| GET    | /api/category      | Listar todas las categorías       |
-| POST   | /api/category      | Crear una nueva categoría         |
-| GET    | /api/category/{id} | Ver una categoría específica      |
-| PUT    | /api/category/{id} | Actualizar una categoría          |
-| DELETE | /api/category/{id} | Eliminar una categoría            |
-
-### 🔐 Requiere token de autenticación (Bearer Token)
-
-### ✅ Ejemplo de respuesta exitosa
-```json
-{
-  "ok": true,
-  "status": "success",
-  "code": 200,
-  "message": "Operación exitosa.",
-  "data": [
-    {
-      "id": 1,
-      "name": "Soporte técnico",
-      "created_at": "2025-06-10T18:30:00.000000Z",
-      "updated_at": "2025-06-10T18:30:00.000000Z"
-    }
-  ]
-}
-```
-
-## 🎫 Endpoints - Gestión de Tickets
-
-Todas las rutas están protegidas mediante autenticación con **Sanctum**. Requiere un token válido tipo **Bearer**.
-
-### 📌 Base: `/api/ticket`
-
----
-
-### 🔍 `GET /api/ticket`
-**Descripción:** Listar los tickets del usuario autenticado (orden descendente por fecha).
-
-**Respuesta exitosa:**
-```json
-{
-  "ok": true,
-  "status": "success",
-  "code": 200,
-  "message": "Operación exitosa.",
-  "data": [ /* Lista de tickets */ ]
-}
-```
-
-
-## ✅ Autenticación con Laravel Sanctum
-
-Se ha implementado un sistema de autenticación seguro y estructurado utilizando Laravel Sanctum. Este módulo incluye los siguientes endpoints:
-
-### 🔐 Endpoints
-
-- `POST /api/auth/register`: Registro de usuario con validación de campos (`name`, `email`, `password`, `password_confirmation`).
-- `POST /api/auth/login`: Inicio de sesión con retorno de token de acceso.
-- `POST /api/auth/logout`: Cierre de sesión y revocación de todos los tokens del usuario.
-- `GET /api/user`: Retorna la información del usuario autenticado (protegido con middleware `auth:sanctum`).
-
----
-
-### 📦 Validaciones y mensajes personalizados
-
-- Todos los errores de validación son retornados en **español** con mensajes claros y amigables.
-- Se unificó la estructura de las respuestas para que mantengan el siguiente formato en toda la API:
-
+### ❌ Error por validación
 ```json
 {
   "ok": false,
@@ -219,3 +288,66 @@ Se ha implementado un sistema de autenticación seguro y estructurado utilizando
 }
 ```
 
+### ❌ Error de ruta no encontrada
+```json
+{
+  "ok": false,
+  "status": "error",
+  "code": 404,
+  "message": "Ruta no encontrada.",
+  "errors": null
+}
+```
+
+### ❌ Error por método no permitido
+```json
+{
+  "ok": false,
+  "status": "error",
+  "code": 405,
+  "message": "El método GET no está permitido para esta ruta. Métodos soportados: POST.",
+  "errors": null
+}
+```
+
+### ⚙️ Notas
+ - `ok: ` Booleano que indica éxito (`true`) o error (`false`).
+ - `status: ` Texto indicando `success` o `error`.
+ - `code: ` Código HTTP correspondiente.
+ - `message: ` Mensaje claro para el cliente, siempre en español
+ - `data: ` Presente solo en respuestas exitosas, contiene los datos solicitados.
+
+## 🔮 Funcionalidades Pensadas a Futuro
+
+Estas son ideas que se implementarán más adelante para enriquecer la API y la experiencia del usuario. Actualmente no forman parte del MVP.
+
+### 🧭 Filtros avanzados
+- Búsqueda combinada por estado, prioridad, categoría, palabra clave y fecha.
+- Filtros globales reutilizables con scopes y DTOs.
+- Endpoint optimizado para reportes.
+
+### 📄 Exportaciones
+- Exportar tickets a PDF o Excel.
+- Generar reportes descargables por fechas y filtros personalizados.
+
+### 📊 Dashboard administrativo
+- Métricas de uso.
+- Cantidad de tickets por estado y categoría.
+- Actividad reciente y tickets por usuario.
+
+### ✅ Tests automáticos
+- Pruebas unitarias con PHPUnit.
+- Tests de integración con Passport o Sanctum.
+- Cobertura mínima del 80%.
+
+### 📚 Documentación OpenAPI
+- Generación de documentación Swagger/OpenAPI.
+- Interfaz visual interactiva para pruebas.
+
+### 🔐 Roles y permisos
+- Rol administrador y usuarios con permisos.
+- Acceso a diferentes endpoints según rol.
+
+---
+
+Estas funcionalidades serán agregadas una vez se finalice el desarrollo completo del backend y frontend.
