@@ -69,6 +69,40 @@ Desarrollador Full Stack
 
 ----------------------------------------
 
+## 📂 CRUD de Categorías
+
+Este módulo permite la gestión de las categorías a las que puede pertenecer un ticket. Está protegido por autenticación (`auth:sanctum`) y se relaciona directamente con los tickets.
+
+### 📌 Endpoints disponibles:
+
+| Método | Ruta               | Descripción                       |
+|--------|--------------------|-----------------------------------|
+| GET    | /api/category      | Listar todas las categorías       |
+| POST   | /api/category      | Crear una nueva categoría         |
+| GET    | /api/category/{id} | Ver una categoría específica      |
+| PUT    | /api/category/{id} | Actualizar una categoría          |
+| DELETE | /api/category/{id} | Eliminar una categoría            |
+
+### 🔐 Requiere token de autenticación (Bearer Token)
+
+### ✅ Ejemplo de respuesta exitosa
+```json
+{
+  "ok": true,
+  "status": "success",
+  "code": 200,
+  "message": "Operación exitosa.",
+  "data": [
+    {
+      "id": 1,
+      "name": "Soporte técnico",
+      "created_at": "2025-06-10T18:30:00.000000Z",
+      "updated_at": "2025-06-10T18:30:00.000000Z"
+    }
+  ]
+}
+```
+
 ## 🎫 Endpoints - Gestión de Tickets
 
 Todas las rutas están protegidas mediante autenticación con **Sanctum**. Requiere un token válido tipo **Bearer**.
