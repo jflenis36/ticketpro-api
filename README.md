@@ -69,6 +69,71 @@ Desarrollador Full Stack
 
 ----------------------------------------
 
+## 💬 Comentarios (CRUD con jerarquía)
+
+Se implementó un sistema completo de comentarios para los tickets, permitiendo tanto comentarios principales como respuestas anidadas (jerárquicas).
+
+### 🔧 Rutas disponibles (protegidas por Sanctum)
+
+| Método | Ruta                       | Descripción                           |
+|--------|----------------------------|---------------------------------------|
+| GET    | /api/comment/{ticket_id}   | Obtener comentarios del ticket        |
+| POST   | /api/comment/{ticket_id}   | Crear un nuevo comentario             |
+| PUT    | /api/comment/{id}          | Actualizar un comentario propio       |
+| DELETE | /api/comment/{id}          | Eliminar un comentario propio         |
+
+> 🔒 Requiere autenticación mediante token Sanctum.
+
+### 🗂️ Estructura de la tabla `comments`
+
+| Campo      | Tipo         | Descripción                                          |
+|------------|--------------|------------------------------------------------------|
+| id         | bigint       | ID autoincremental del comentario                   |
+| ticket_id  | foreignId    | Relación al ticket al que pertenece                 |
+| user_id    | foreignId    | Usuario que hizo el comentario                      |
+| parent_id  | foreignId    | (opcional) ID del comentario padre (si es respuesta)|
+| content    | text         | Contenido del comentario                            |
+| timestamps | timestamps   | Fechas de creación y actualización                  |
+
+### 📦 Ejemplo de respuesta exitosa
+```json
+{
+  "ok": true,
+  "status": "success",
+  "code": 200,
+  "message": "Comentario creado correctamente.",
+  "data": {
+    "id": 1,
+    "ticket_id": 5,
+    "user_id": 3,
+    "parent_id": null,
+    "content": "Este es un comentario.",
+    "created_at": "2025-06-10T17:50:00.000000Z"
+  }
+}
+```
+
+```json
+{
+  "ok": true,
+  "status": "success",
+  "code": 200,
+  "message": "Lista de comentarios del ticket.",
+  "data": [
+    {
+      "id": 1,
+      "content": "Comentario principal",
+      "replies": [
+        {
+          "id": 2,
+          "content": "Respuesta al comentario"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 📂 CRUD de Categorías
 
 Este módulo permite la gestión de las categorías a las que puede pertenecer un ticket. Está protegido por autenticación (`auth:sanctum`) y se relaciona directamente con los tickets.

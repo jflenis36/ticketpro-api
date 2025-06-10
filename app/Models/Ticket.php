@@ -30,6 +30,6 @@ class Ticket extends Model
 
      public function comments()
      {
-          return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
+          return $this->hasMany(Comment::class)->whereNull('parent_id')->orderBy('created_at', 'desc');
      }
 }
