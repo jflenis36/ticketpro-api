@@ -27,7 +27,7 @@ Diseñada con buenas prácticas, validaciones en español y respuestas consisten
 
 ---
 
-## ⚙️ Tecnologías
+## 📝 Tecnologías
 
 - PHP 8.x  
 - Laravel 8.x + Sanctum  
@@ -50,7 +50,7 @@ php artisan serve
 
 ---
 
-## Endpoints principales
+## 📝 Endpoints principales
 
 ### 🛡️ Autenticación - 🔑 Iniciar sesión
 - **Método:** POST  
