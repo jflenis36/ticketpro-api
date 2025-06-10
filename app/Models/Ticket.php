@@ -9,6 +9,15 @@ class Ticket extends Model
 {
      use HasFactory;
 
+     protected $fillable = [
+          'title',
+          'description',
+          'status',
+          'priority',
+          'user_id',
+          'category_id',
+     ];
+
      public function user()
      {
           return $this->belongsTo(User::class);
@@ -21,6 +30,6 @@ class Ticket extends Model
 
      public function comments()
      {
-          return $this->hasMany(Comment::class);
+          return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
      }
 }
