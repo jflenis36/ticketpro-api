@@ -174,7 +174,7 @@ php artisan serve
 - **Ruta:** `/api/ticket/{ticket_id}/comments`  
 - **Header:** `Authorization: Bearer {token}`
 
-💬 Comentarios - ➕ Crear comentario en un ticket
+### 💬 Comentarios - ➕ Crear comentario en un ticket
 - **Método:** POST  
 - **Ruta:** `/api/ticket/{ticket_id}/comments`  
 - **Header:** `Authorization: Bearer {token}`
@@ -185,12 +185,12 @@ php artisan serve
 }
 ```
 
-💬 Comentarios - 🔍 Ver respuestas a un comentario
+### 💬 Comentarios - 🔍 Ver respuestas a un comentario
 - **Método:** GET  
 - **Ruta:** `/api/comment/{comment_id}`  
 - **Header:** `Authorization: Bearer {token}`
 
-💬 Comentarios - 🔁 Responder a un comentario
+### 💬 Comentarios - 🔁 Responder a un comentario
 - **Método:** POST  
 - **Ruta:** `/api/comment/{comment_id}/reply`  
 - **Header:** `Authorization: Bearer {token}`
@@ -199,8 +199,9 @@ php artisan serve
 {
   "content": "respuesta"
 }
+```
 
-💬 Comentarios - ✏️ Actualizar comentario o respuesta
+### 💬 Comentarios - ✏️ Actualizar comentario o respuesta
 - **Método:** PUT  
 - **Ruta:** `/api/comment/{id}`  
 - **Header:** `Authorization: Bearer {token}`
@@ -211,7 +212,7 @@ php artisan serve
 }
 ```
 
-💬 Comentarios - ❌ Eliminar comentario o respuesta
+### 💬 Comentarios - ❌ Eliminar comentario o respuesta
 - **Método:** DELETE  
 - **Ruta:** `/api/comment/{id}`  
 - **Header:** `Authorization: Bearer {token}`
@@ -316,6 +317,8 @@ Todas las respuestas de la API siguen un formato estándar para facilitar el man
  - `code: ` Código HTTP correspondiente.
  - `message: ` Mensaje claro para el cliente, siempre en español
  - `data: ` Presente solo en respuestas exitosas, contiene los datos solicitados.
+
+---
 
 ## 🔮 Funcionalidades Pensadas a Futuro
 
