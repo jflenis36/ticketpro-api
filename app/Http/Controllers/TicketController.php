@@ -22,16 +22,69 @@ class TicketController extends Controller
       *
       * @return \Illuminate\Http\JsonResponse
       */
-     public function index()
+     // public function index()
+     // {
+     //      $user = auth()->user();
+
+     //      $tickets = Ticket::where('user_id', $user->id)
+     //           ->orderBy('created_at', 'desc')
+     //           ->get();
+
+     //      return $this->success($tickets);
+     // }
+     public function index(Request $request)
      {
           $user = auth()->user();
 
-          $tickets = Ticket::where('user_id', $user->id)
-               ->orderBy('created_at', 'desc')
-               ->get();
+          $query = Ticket::where('user_id', $user->id);
+
+          if ($request->has('status')) {
+               $query = $query->where('status', $request->input('status'));
+          }
+
+          if ($request->has('priority')) {
+               $query = $query->where('priority', $request->input('priority'));
+          }
+
+          if ($request->has('q')) {
+               $query = $query->where(function ($q) use ($request) {
+                    $q->where('title', 'like', '%' . $request->q . '%')
+                         ->orWhere('description', 'like', '%' . $request->q . '%');
+               });
+          }
+
+          if ($request->has('category_id')) {
+               $query = $query->where('category_id', $request->input('category_id'));
+          }
+
+          if ($request->has('from')) {
+               $query = $query->where('created_at', '>=', $request->input('from'));
+          }
+
+          if ($request->has('to')) {
+               $query = $query->where('created_at', '<=', $request->input('to'));
+          }
+
+          if ($request->has('sort_by')) {
+               $sortBy = $request->input('sort_by');
+               $sortOrder = $request->input('sort_order', 'asc');
+               $query = $query->orderBy($sortBy, $sortOrder);
+          } else {
+               $query = $query->orderBy('created_at', 'desc');
+          }
+
+          // dd($query->toSql(), $query->getBindings(), $query->get());
+
+          if ($request->has('per_page')) {
+               $tickets = $query->paginate($request->input('per_page'));
+          } else {
+               $tickets = $query->get();
+          }
 
           return $this->success($tickets);
      }
+
+
 
      /**
       * Crea un nuevo ticket en el sistema
