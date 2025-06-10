@@ -8,11 +8,15 @@ API REST desarrollada con Laravel 8 y Sanctum, que permite gestionar tickets, ca
 
 1. [Descripción](#-descripción)  
 2. [Tecnologías](#-tecnologías)  
-3. [Instalación y ejecución](#-instalación-y-ejecución)  
-4. [Endpoints principales](#-endpoints-principales)
-5. [Filtros y paginación](#-filtros-y-paginación)  
-6. [Formato de Respuesta JSON Unificado](#-formato-de-respuesta-json-unificado)
-7. [Funcionalidades Pensadas a Futuro](#-funcionalidades-pensadas-a-futuro)
+3. [Estructura del proyecto](#-estructura-del-proyecto)  
+4. [Instalación y ejecución](#-instalación-y-ejecución)  
+5. [Endpoints principales](#-endpoints-principales)
+6. [Filtros y paginación](#-filtros-y-paginación)  
+7. [Formato de Respuesta JSON Unificado](#-formato-de-respuesta-json-unificado)
+8. [Funcionalidades Pensadas a Futuro](#-funcionalidades-pensadas-a-futuro)
+9. [Colección postman](#-colección-postman)
+10. [Contribuciones](#-contribuciones)
+11. [Licencia](#-licencia)
 
 ---
 
@@ -34,6 +38,42 @@ Diseñada con buenas prácticas, validaciones en español y respuestas consisten
 - MySQL / PostgreSQL  
 - Eloquent ORM  
 - (Próximamente) PHPUnit para tests
+
+---
+
+## 📁 Estructura del Proyecto
+
+```bash
+ticketpro-api/
+├── app/
+│   ├── Console/
+│   ├── Exceptions/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── AuthController.php
+│   │   │   ├── TicketController.php
+│   │   │   ├── CategoryController.php
+│   │   │   └── CommentController.php
+│   │   ├── Middleware/
+│   ├── Models/
+│   │   ├── User.php
+│   │   ├── Ticket.php
+│   │   ├── Category.php
+│   │   └── Comment.php
+│   └── Traits/
+│       └── ApiResponse.php
+├── config/
+├── database/
+│   ├── migrations/
+│   └── seeders/
+├── routes/
+│   ├── api.php
+│   └── web.php
+├── tests/
+├── .env
+├── composer.json
+└── README.md
+```
 
 ---
 
@@ -354,3 +394,23 @@ Estas son ideas que se implementarán más adelante para enriquecer la API y la 
 ---
 
 Estas funcionalidades serán agregadas una vez se finalice el desarrollo completo del backend y frontend.
+
+---
+
+## 🤝 Contribuciones
+
+Este proyecto fue creado con fines educativos y como parte de mi portafolio personal.
+
+Sin embargo, si deseas sugerir mejoras o encontrar algún error:
+
+- Abre un "Issue" describiendo el problema o idea.
+- Haz un fork del proyecto y crea un Pull Request.
+- Toda propuesta constructiva será bienvenida. 🙌
+
+---
+
+## 🪪 Licencia
+
+Este proyecto está bajo la Licencia MIT.  
+Puedes usarlo, copiarlo o modificarlo libremente con fines personales o educativos.  
+Consulta el archivo [LICENSE](LICENSE) para más detalles.
