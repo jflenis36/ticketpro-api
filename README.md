@@ -6,13 +6,13 @@ API REST desarrollada con Laravel 8 y Sanctum, que permite gestionar tickets, ca
 
 ## 🧩 Contenido
 
-1. [Descripción](#descripción)  
-2. [Tecnologías](#tecnologías)  
-3. [Instalación y ejecución](#instalación-y-ejecución)  
-4. [Endpoints principales](#endpoints-principales)  
-5. [Filtros y paginación](#filtros-y-paginación)  
-6. [Respuestas JSON unificadas](#respuestas-json-unificadas)  
-7. [Planeado para futuro](#planeado-para-futuro)  
+1. [Descripción](#-descripción)  
+2. [Tecnologías](#-tecnologías)  
+3. [Instalación y ejecución](#-instalación-y-ejecución)  
+4. [Endpoints principales](#-endpoints-principales)  
+5. [Filtros y paginación](#-filtros-y-paginación)  
+6. [Respuestas JSON unificadas](#-respuestas-json-unificadas)  
+7. [Planeado para futuro](#-planeado-para-futuro)  
 
 ---
 
