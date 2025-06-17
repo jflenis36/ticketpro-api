@@ -16,6 +16,7 @@ class Ticket extends Model
           'priority',
           'user_id',
           'category_id',
+          'project_id'
      ];
 
      public function user()
@@ -31,5 +32,10 @@ class Ticket extends Model
      public function comments()
      {
           return $this->hasMany(Comment::class)->whereNull('parent_id')->orderBy('created_at', 'desc');
+     }
+
+     public function project()
+     {
+          return $this->belongsTo(Project::class);
      }
 }

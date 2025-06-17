@@ -22,21 +22,9 @@ class TicketController extends Controller
       *
       * @return \Illuminate\Http\JsonResponse
       */
-     // public function index()
-     // {
-     //      $user = auth()->user();
-
-     //      $tickets = Ticket::where('user_id', $user->id)
-     //           ->orderBy('created_at', 'desc')
-     //           ->get();
-
-     //      return $this->success($tickets);
-     // }
      public function index(Request $request)
      {
-          $user = auth()->user();
-
-          $query = Ticket::where('user_id', $user->id);
+          $query = Ticket::where('user_id', '!=', null);
 
           if ($request->has('status')) {
                $query = $query->where('status', $request->input('status'));
@@ -78,7 +66,7 @@ class TicketController extends Controller
           if ($request->has('per_page')) {
                $tickets = $query->paginate($request->input('per_page'));
           } else {
-               $tickets = $query->get();
+               $tickets = $query->paginate(10);
           }
 
           return $this->success($tickets);
@@ -124,7 +112,6 @@ class TicketController extends Controller
      {
           $ticket = Ticket::with(['user', 'category', 'comments'])
                ->where('id', $id)
-               ->where('user_id', auth()->id())
                ->first();
 
           if (!$ticket) {
@@ -152,9 +139,7 @@ class TicketController extends Controller
                'category_id' => 'sometimes|exists:categories,id'
           ]);
 
-          $ticket = Ticket::where('id', $id)
-               ->where('user_id', auth()->id())
-               ->first();
+          $ticket = Ticket::find($id);
 
           if (!$ticket) {
                return $this->error('Ticket no encontrado', 404);
